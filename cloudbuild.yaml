@@ -7,7 +7,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'asia-south1-docker.pkg.dev/devops-pipeline-arun-01-waa/my-repo/website']
 
-# Step 3: Deploy
+# Step 3: Deploy (With the PORT FIX)
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
@@ -21,10 +21,11 @@ steps:
   - '--platform'
   - 'managed'
   - '--allow-unauthenticated'
+  - '--port'   # <--- ADDED THIS
+  - '80'       # <--- ADDED THIS
 
 images:
 - 'asia-south1-docker.pkg.dev/devops-pipeline-arun-01-waa/my-repo/website'
 
-# THE FIX IS HERE:
 options:
   logging: CLOUD_LOGGING_ONLY
