@@ -1,0 +1,27 @@
+name: Test GCP Connection
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  verify-connection:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Check out your code
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2. Log in to Google Cloud using the Secret you created
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    # 3. Verify the connection worked
+    - name: Verify Setup
+      run: |
+        gcloud info
+        gcloud projects list
+
